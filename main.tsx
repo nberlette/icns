@@ -276,13 +276,13 @@ serve({
     handle.root,
   "/favicon.:ext(.+)":
     handle.favicon,
+  "/:color/:collection/:slug(.+).svg":
+    handle.icon,
   "/:color/:collection([^:]+)(:):slug(.+).svg":
     handle.icon,
   "/:color/:slug(.+).svg":
     handle.icon,
-  "/:collection/:slug(.+)(\.|-):color(.+).svg":
-    handle.icon,
-  "/:collection([^:]+)(:):slug(.+)(:|-):color(.+).svg":
+  "/:collection([^:]+)(:):slug(.+)(:):color(.+).svg":
     handle.icon,
   "/:collection([^:]+)(:):slug(.+).svg":
     handle.icon,
