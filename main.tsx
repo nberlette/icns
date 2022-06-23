@@ -194,13 +194,13 @@ const handle = {
             style="--straighten-up-delay:6500ms;"
             class="straighten-up overflow-y-scroll flex flex-col items-center justify-center w-full h-screen !scale-100 peer text-gray-900 dark:!text-white"
           >
-            <h1 class="cursor-default select-none text-6xl sm:text-8xl font-extrabold tracking-tighter text-shadow peer animate animate-back-in-left animate-count-1 animate-duration-700 animate-both">{(new URL(BASE_URL).hostname).split('.').slice(0, 1)}<span class="font-extralight tracking-tight text-4xl sm:text-6xl">.{(new URL(BASE_URL).hostname).split('.').slice(1).join('.')}</span></h1>
+            <h1 class="cursor-default select-none text-6xl sm:text-8xl font-extrabold tracking-tighter text-shadow peer animate animate-back-in-left animate-count-1 animate-duration-500 animate-both">{(new URL(BASE_URL).hostname).split('.').slice(0, 1)}<span class="font-extralight tracking-tight text-4xl sm:text-6xl">.{(new URL(BASE_URL).hostname).split('.').slice(1).join('.')}</span></h1>
             <div class="mt-2 mb-6 text-center text-gray-600 font-light lowercase gap-y-1 flex flex-col">
-              <strong class="animate-fade-in-down animate-count-1 animate-duration-500 animate-delay-1500 animate-both text-base">dynamic edge-rendered icons</strong>
-              <span class="animate-fade-in-down animate-count-1 animate-duration-500 animate-delay-2500 animate-both text-sm">sub-millisecond response time</span>
+              <strong class="animate-fade-in-down animate-count-1 animate-duration-500 animate-delay-1000 animate-both text-base">dynamic edge-rendered icons</strong>
+              <span class="animate-fade-in-down animate-count-1 animate-duration-300 animate-delay-1500 animate-both text-sm">sub-millisecond response time</span>
             </div>
             <a href="/" title={(new URL(BASE_URL).hostname)} class="inline-block mt-6 w-20 h-20 text-gray-600 hover:text-gray-900 transition-colors ease-in duration-300 animate animate-fade-in-up animate-count-1 animate-delay-2500 animate-both">
-              <img id="icon-preview" src="/favicon.svg" alt={(new URL(BASE_URL).hostname)} width="80" class="animate animate-tada animate-count-1 animate-delay-8000 animate-both animate-duration-600" />
+              <img id="icon-preview" src="/favicon.svg" alt={(new URL(BASE_URL).hostname)} width="80" class="animate animate-tada animate-count-1 animate-delay-5000 animate-both animate-duration-600" />
             </a>
             <p class="mt-2 mb-4 flex flex-col flex-wrap gap-x-2 gap-y-4">
               <h2 class="text-2xl font-bold mb-2 lowercase sr-only" aria-hidden="true">Schema Examples</h2>
@@ -211,27 +211,27 @@ const handle = {
                   <a
                     href={`#${icon}`}
                     key={i + icon}
-                    class={`flex flex-row place-items-center gap-2 my-2 animate animate-back-in-right animate-ease-out animate-both animate-count-1 animate-delay-${1700 + (i * 200)}`}
+                    class={`flex flex-row place-items-center gap-2 my-2 animate animate-back-in-right animate-ease-out animate-both animate-count-1 animate-delay-${1200 + (i * 200)}`}
                   >
-                    <button class="text-gray-900 border border-solid border-b-2 shadow-sm hover:shadow !transition-all !duration-300 !ease-in bg-gradient-to-t active:!bg-gradient-to-b to-blue-gray-50 from-blue-gray-200 border-blue-gray-200 border-b-blue-gray-300 hover:border-blue-gray-300 focus:border-blue-gray-300 ring-1 ring-transparent focus:ring-blue-200 hover:focus:!ring-violet-200 !rounded-full !pl-5 !pr-1 py-1.5 leading-8 inline-flex place-items-center flex-row flex-nowrap !gap-x-3"><code class="text-sm sm:text-base underline underline-1 underline-dotted underline-gray-400 underline-offset-1">./{icon}.svg</code><img src={`/${icon}.svg`} alt="" class="w-5 h-5 mr-4 text-inherit inline-block" /></button>
+                    <button class="select-none drag-none text-gray-900 border border-solid border-b-2 shadow-sm hover:shadow-md !transition-all !duration-300 !ease-in bg-gradient-to-t active:!bg-gradient-to-b to-blue-gray-50 from-blue-gray-200 border-blue-gray-200 border-b-blue-gray-300 hover:border-blue-gray-300 focus:border-blue-gray-300 ring-1 ring-transparent focus:ring-blue-200 hover:focus:!ring-violet-200 !rounded-full !px-5 !py-1.5 leading-8 inline-flex place-items-center flex-row flex-nowrap !gap-x-3"><code class="text-sm sm:text-base underline underline-1 underline-dotted underline-gray-400 underline-offset-1">./{icon}.svg</code><img src={`/${icon}.svg`} alt="" class="w-5 h-5 text-inherit inline-block no-sr" /></button>
                   </a>
                 </div>)
                 )}
             </p>
-            <footer class="fixed bottom-16 w-full h-10 flex items-center justify-center gap-10 text-gray-800 dark:!text-gray-50">
+            <footer class="absolute bottom-16 w-full h-10 flex flex-row place-items-center justify-around gap-10 text-gray-800 dark:!text-gray-50">
               <a
-                class="text-sm no-underline text-black"
+                class="select-none no-underline inline-block group"
                 href="https://github.com/nberlette/icns"
                 title="View Source on GitHub"
               >
-                <span class="bg-black dark:!bg-white [-webkit-mask-image:url(./tabler:brand-github.svg)] [mask-image:url(./tabler:brand-github.svg)] inline-block w-8 h-8"></span>
+                <span class="bg-black/60 group-hover:bg-black/90 dark:bg-white/60 group-hover:dark:bg-white/90 [-webkit-mask-image:url(./tabler:brand-github.svg)] [mask-image:url(./tabler:brand-github.svg)] inline-block w-8 h-8"></span>
               </a>
               <a
                 href="https://berlette.com"
-                class="inline-block"
+                class="select-none no-underline inline-block"
                 title="Made with ❤️ by Nicholas Berlette"
               >
-                <span class="bg-black dark:!bg-white [-webkit-mask-image:url(./mdi:alpha-n-circle-outline.svg)] [mask-image:url(./mdi:alpha-n-circle-outline.svg)] inline-block w-8 h-8"></span>
+                <span class="opacity-60 group-hover:!opacity-100 ![background:linear-gradient(#044bbb_50%,#fcc500_50.1%)] [-webkit-mask-image:url(./mdi:alpha-n-circle-outline.svg)] [mask-image:url(./mdi:alpha-n-circle-outline.svg)] inline-block w-8 h-8"></span>
               </a>
             </footer>
           </div>
@@ -242,7 +242,7 @@ const handle = {
         { href: '/favicon.svg', type: 'image/svg+xml', rel: 'prefetch', as: 'image' },
       ],
       scripts: [
-        `var $=document.querySelector.bind(document);var $$=document.querySelectorAll.bind(document);var hashchange=(e)=>{$('#icon-preview').src='/'+location.hash.replace(/(^[#]|\\.svg$)/ig, '')+'.svg'};window.addEventListener('hashchange', hashchange);if(!!window.location.hash){hashchange()}`,
+        `var $=document.querySelector.bind(document);var $$=document.querySelectorAll.bind(document);var hashchange=(e)=>{location.hash.endsWith('.svg')&&($('#icon-preview').src='/'+location.hash.replace(/(^[#\/]|\\.svg$)/ig, '')+'.svg')};window.addEventListener('hashchange', hashchange);if(!!location.hash){setTimeout(hashchange,100)}`,
       ],
       styles: [
         `@keyframes straighten-up{from{transform:rotateX(-1deg) rotateZ(2deg) scale3d(var(--un-scale-x,1.5),var(--un-scale-y,1.5),var(--un-scale-z,1.5));transition:.333s transform 6s ease-in;} to{transform:rotateX(0deg) rotateZ(0deg) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) !important;}} @keyframes desharpen{from{backdrop-filter:blur(0)}to{backdrop-filter:blur(2px)}} .straighten-up{animation:500ms straighten-up linear var(--straighten-up-delay,6000ms) 1 both, 1000ms fade-in linear 200ms 1 both, 1000ms desharpen 6000ms 1 both;}`,
