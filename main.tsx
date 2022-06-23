@@ -218,20 +218,13 @@ const handle = {
                 </div>)
                 )}
             </p>
-            <footer class="absolute bottom-16 w-full max-w-[70vw] mx-auto h-10 flex flex-row place-items-center justify-evenly gap-10 group">
-              <a
-                class="select-none no-underline inline-block"
-                href="https://github.com/nberlette/icns"
-                title="View Source on GitHub"
-              >
-                <span class="bg-black dark:!bg-white opacity-70 group-hover:!opacity-100 transition-opacity duration-300 ease-in [-webkit-mask-image:url(./tabler:brand-github.svg)] [mask-image:url(./tabler:brand-github.svg)] inline-block w-8 h-8"></span>
-              </a>
+            <footer class="absolute bottom-16 w-full max-w-[70vw] mx-auto h-12 flex flex-row place-items-center justify-evenly gap-10 group">
               <a
                 href="https://berlette.com"
                 class="select-none no-underline inline-block"
                 title="Made with ❤️ by Nicholas Berlette"
               >
-                <span class="opacity-70 group-hover:!opacity-100 transition-opacity duration-300 ease-in ![background:linear-gradient(#044bbb_50%,#fcc500_50.1%)] [-webkit-mask-image:url(./mdi:alpha-n-circle-outline.svg)] [mask-image:url(./mdi:alpha-n-circle-outline.svg)] inline-block w-8 h-8"></span>
+                <span class="opacity-70 group-hover:!opacity-100 transition-opacity duration-300 ease-in ![background:linear-gradient(#044bbb_50%,#fcc500_50.1%)] [-webkit-mask-image:url(./mdi:alpha-n-circle-outline.svg)] [mask-image:url(./mdi:alpha-n-circle-outline.svg)] inline-block w-12 h-12"></span>
               </a>
             </footer>
           </div>
