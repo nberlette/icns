@@ -191,7 +191,7 @@ const handle = {
             <span class="bg-blue-200 dark:!bg-yellow-200 dark:mix-blend-exclusion inline-block w-8 h-8 [-webkit-mask-image:url(./heroicons-outline:moon.svg)] [mask-image:url(./heroicons-outline:moon.svg)] dark:![-webkit-mask-image:url(./heroicons-outline:sun.svg)] dark:![mask-image:url(./heroicons-outline:sun.svg)]">&nbsp;</span>
           </button>
           <div
-            style="--straighten-up-delay:6500ms;"
+            style="--straighten-up-delay:5000ms;"
             class="straighten-up overflow-y-scroll flex flex-col items-center justify-center w-full h-screen !scale-100 peer text-gray-900 dark:!text-white"
           >
             <h1 class="cursor-default select-none text-6xl sm:text-8xl font-extrabold tracking-tighter text-shadow peer animate animate-back-in-left animate-count-1 animate-duration-500 animate-both">{(new URL(BASE_URL).hostname).split('.').slice(0, 1)}<span class="font-extralight tracking-tight text-4xl sm:text-6xl">.{(new URL(BASE_URL).hostname).split('.').slice(1).join('.')}</span></h1>
@@ -209,29 +209,29 @@ const handle = {
                 .map((icon, i) =>
                 (<div>
                   <a
-                    href={`#${icon}`}
+                    href={`#${icon}.svg`}
                     key={i + icon}
-                    class={`flex flex-row place-items-center gap-2 my-2 animate animate-back-in-right animate-ease-out animate-both animate-count-1 animate-delay-${1200 + (i * 200)}`}
+                    class={`flex flex-row place-items-center gap-2 my-2 animate animate-back-in-right animate-ease-out animate-both animate-count-1 animate-delay-${1200 + (i * 125)}`}
                   >
                     <button class="select-none drag-none text-gray-900 border border-solid border-b-2 shadow-sm hover:shadow-md !transition-all !duration-300 !ease-in bg-gradient-to-t active:!bg-gradient-to-b to-blue-gray-50 from-blue-gray-200 border-blue-gray-200 border-b-blue-gray-300 hover:border-blue-gray-300 focus:border-blue-gray-300 ring-1 ring-transparent focus:ring-blue-200 hover:focus:!ring-violet-200 !rounded-full !px-5 !py-1.5 leading-8 inline-flex place-items-center flex-row flex-nowrap !gap-x-3"><code class="text-sm sm:text-base underline underline-1 underline-dotted underline-gray-400 underline-offset-1">./{icon}.svg</code><img src={`/${icon}.svg`} alt="" class="w-5 h-5 text-inherit inline-block no-sr" /></button>
                   </a>
                 </div>)
                 )}
             </p>
-            <footer class="absolute bottom-16 w-full h-10 flex flex-row place-items-center justify-around gap-10 text-gray-800 dark:!text-gray-50">
+            <footer class="absolute bottom-16 w-full h-10 flex flex-row place-items-center justify-around gap-10 text-gray-800 dark:!text-gray-50 group">
               <a
-                class="select-none no-underline inline-block group"
+                class="select-none no-underline inline-block"
                 href="https://github.com/nberlette/icns"
                 title="View Source on GitHub"
               >
-                <span class="bg-black/60 group-hover:bg-black/90 dark:bg-white/60 group-hover:dark:bg-white/90 [-webkit-mask-image:url(./tabler:brand-github.svg)] [mask-image:url(./tabler:brand-github.svg)] inline-block w-8 h-8"></span>
+                <span class="bg-black/60 group-hover:bg-black/90 dark:bg-white/60 group-hover:dark:!bg-white/90 transition-opacity duration-300 ease-in [-webkit-mask-image:url(./tabler:brand-github.svg)] [mask-image:url(./tabler:brand-github.svg)] inline-block w-8 h-8"></span>
               </a>
               <a
                 href="https://berlette.com"
                 class="select-none no-underline inline-block"
                 title="Made with ❤️ by Nicholas Berlette"
               >
-                <span class="opacity-60 group-hover:!opacity-100 ![background:linear-gradient(#044bbb_50%,#fcc500_50.1%)] [-webkit-mask-image:url(./mdi:alpha-n-circle-outline.svg)] [mask-image:url(./mdi:alpha-n-circle-outline.svg)] inline-block w-8 h-8"></span>
+                <span class="opacity-60 group-hover:!opacity-100 transition-opacity duration-300 ease-in ![background:linear-gradient(#044bbb_50%,#fcc500_50.1%)] [-webkit-mask-image:url(./mdi:alpha-n-circle-outline.svg)] [mask-image:url(./mdi:alpha-n-circle-outline.svg)] inline-block w-8 h-8"></span>
               </a>
             </footer>
           </div>
@@ -245,7 +245,7 @@ const handle = {
         `var $=document.querySelector.bind(document);var $$=document.querySelectorAll.bind(document);var hashchange=(e)=>{location.hash.endsWith('.svg')&&($('#icon-preview').src='/'+location.hash.replace(/(^[#\/]|\\.svg$)/ig, '')+'.svg')};window.addEventListener('hashchange', hashchange);if(!!location.hash){setTimeout(hashchange,100)}`,
       ],
       styles: [
-        `@keyframes straighten-up{from{transform:rotateX(-1deg) rotateZ(2deg) scale3d(var(--un-scale-x,1.5),var(--un-scale-y,1.5),var(--un-scale-z,1.5));transition:.333s transform 6s ease-in;} to{transform:rotateX(0deg) rotateZ(0deg) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) !important;}} @keyframes desharpen{from{backdrop-filter:blur(0)}to{backdrop-filter:blur(2px)}} .straighten-up{animation:500ms straighten-up linear var(--straighten-up-delay,6000ms) 1 both, 1000ms fade-in linear 200ms 1 both, 1000ms desharpen 6000ms 1 both;}`,
+        `@keyframes straighten-up{from{transform:rotateX(-1deg) rotateZ(2deg) scale3d(var(--un-scale-x,1.5),var(--un-scale-y,1.5),var(--un-scale-z,1.5));transition:.333s transform 6s ease-in;} to{transform:rotateX(0deg) rotateZ(0deg) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) !important;}} @keyframes desharpen{from{backdrop-filter:blur(0)}to{backdrop-filter:blur(2px)}} .straighten-up{animation:500ms straighten-up linear var(--straighten-up-delay,4500ms) 1 both, 1000ms fade-in linear 500ms 1 both, 500ms desharpen 4500ms 1 both;}`,
         `pre,code,kbd{font-family:'IBM Plex Mono','Dank Mono','Operator Mono SSm','Operator Mono','Fira Code','Fira Mono',monospace !important}`,
       ],
     })
