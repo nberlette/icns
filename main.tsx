@@ -15,6 +15,25 @@ const GOKV_TOKEN = Deno.env.get('GOKV_TOKEN') || null;
 const GOKV_NAMESPACE = Deno.env.get('GOKV_NAMESPACE') || 'icns.ml';
 
 /**
+ * List of icon slugs to display as examples on the homepage.
+ */
+const exampleIconSlugs: string[] = [
+  'simple-icons:bmw:indianred',
+  'deno',
+  'c00/carbon:bat',
+  'rgba(0,160,240,.8)/ph:cloud-fill',
+  'tabler:brand-github',
+  '0cf/twitter',
+];
+
+
+/**
+ * Default icon color to apply for fills and strokes. 
+ * @note Providing any value for the color parameter will override this.
+ */
+const defaultIconColor = '#000000';
+
+/**
  * Default attributes (or props) to use when rendering icons. Stringified into SVG.
  * @example `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" role="img">`
  */
@@ -27,12 +46,6 @@ const defaultIconProps: IconProps = {
 }
 
 /**
- * Default icon color to apply for fills and strokes. 
- * @note Providing any value for the color parameter will override this.
- */
-const defaultIconColor = '#000000';
-
-/**
  * Default response headers to send when rendering icons.
  * @note `cache-control` will be overridden if necessary.
  */
@@ -42,21 +55,19 @@ const defaultIconHeaders: HeadersInit = {
 }
 
 /**
- * Whitelist of SVG attribute names the user is allowed to override via the URL's query string.
- * @example `./deno.svg?stroke-width=0.5&id=deno&class=blue`
+ * Whitelist of patterns to determine which attributes the user can override via `URLSearchParams`.
+ * Supports string literals and RegExp patterns (to match several related attributes with less code).
+ * @example `/^fill(?:-(.+))?$/ig` - allows `fill`, `fill-rule`, `fill-opacity`, etc.
+ * @example `'fill'` - only allows `fill`.
  */
-const allowedAttributes: (keyof IconProps)[] = ['viewBox', 'fill', 'stroke', 'stroke-width', 'color', 'id', 'class', 'style', 'transform'];
-
-/**
- * List of icon slugs to display as examples on the homepage.
- */
-const exampleIconSlugs: string[] = [
-  'simple-icons:bmw:indianred',
-  'deno',
-  'c00/carbon:bat',
-  'rgba(0,160,240,.8)/ph:cloud-fill',
-  'tabler:brand-github',
-  '0cf/twitter'
+const allowedIconProps: (string | RegExp)[] = [
+  'role',
+  'title',
+  'viewBox',
+  /^aria-(.+)$/i,
+  /^fill(?:-(.+))?$/i,
+  /^stroke(?:-(.+))?$/i,
+  /^(id|class|style|color|transform(?:-origin)?)$/i,
 ];
 
 /**
@@ -78,7 +89,6 @@ interface IconAttributes {
   width: string | number;
   height: string | number;
   fill: string;
-  role: string;
   stroke: string;
   [prop: string]: string | number | boolean;
 }
@@ -98,7 +108,7 @@ const handle = {
    * Where all the magic happens: the primary icon handler.
    */
   async icon(req: Request, _connInfo: any, params: IconParams, extraProps: IconProps = {}) {
-    const url = new URL(req.url)
+    const url = new URL(req.url);
 
     // determine color
     let color: string = defaultIconColor;
@@ -117,12 +127,8 @@ const handle = {
         : defaultIconColor;
     }
 
-    const {
-      // default icon collection
-      collection = 'simple-icons',
-      // default icon slug
-      slug = 'svg'
-    } = params as IconParams;
+    // default icon collection is simple-icons
+    const { collection = 'simple-icons', slug = 'svg' } = params as IconParams;
 
     // construct a filename 
     const filename = `${collection.toLowerCase()}:${slug.toLowerCase()}.svg`
@@ -132,7 +138,13 @@ const handle = {
       Object.create(null),
       defaultIconProps,
       { color },
-      Object.fromEntries(Array.from(url.searchParams.entries()).filter(([k, v]) => allowedAttributes.includes(k))),
+      Object.fromEntries( // only allow query params that match the whitelist
+        [...url.searchParams.entries()].filter(([k, v]) => 
+          allowedIconProps.some((pattern: RegExp | string) => 
+            ( pattern instanceof RegExp ? pattern.test(k) : `${pattern}` === `${k}` ) 
+          )
+        )
+      ),
       extraProps,
     );
 
@@ -140,27 +152,24 @@ const handle = {
     let style: string = '';
     if (params.color === 'dynamic')
       style = `<style>@media(prefers-color-scheme:dark){svg{color:#ffffff !important}}</style>`;
-
+    
+    // fetch the icon from the iconify cdn origin server
     try {
       const body: string = await $fetch(`${API_BASE_URL}/${filename}`, {
         parseResponse(svg: string) {
           return (style + svg.trim().replace(/(^[\s\n]*<svg([^>]+)>|<\/svg>[\n\s]*$)/ig, (attrs) => {
             try {
               if (attrs) {
-                const matches = /viewBox=['"]([^'"]+)['"]/i.exec(attrs)
-                if (matches && matches[1])
-                  Object.assign(props, { viewBox: matches[1] })
+                const [, viewBox = defaultIconProps.viewBox] = (/viewBox=['"]([^'"]+)['"]/i.exec(attrs) || []);
+                if (viewBox) Object.assign(props, { viewBox });
               }
-            } catch { }
+            } catch { return '' }
             return ''
           })).trim()
         }
       })
-
       return await handle.svg(body, { ...props, ...(extraProps || {}) })
-    } catch {
-      return await handle['404'](req)
-    }
+    } catch { return await handle.error(req) }
   },
 
   /**
@@ -254,7 +263,9 @@ const handle = {
   /**
    * In case we encounter a typo or otherwise missing icon, this will render a placeholder to prevent broken images.
    */
-  404: (req: Request) => handle.icon(req, null, { collection: 'heroicons-outline', slug: 'exclamation', color: '#bb0000' })
+  error(req: Request) {
+    return handle.icon(req, null, { collection: 'heroicons-outline', slug: 'exclamation', color: '#bb0000' })
+  },
 }
 
 /**
@@ -269,16 +280,18 @@ serve({
     handle.icon,
   "/:color/:slug(.+).svg":
     handle.icon,
-  "/:collection([^:]+)(:):slug([^:]+)(:):color(.+).svg":
+  "/:collection/:slug(.+)(\.|-):color(.+).svg":
+    handle.icon,
+  "/:collection([^:]+)(:):slug(.+)(:|-):color(.+).svg":
     handle.icon,
   "/:collection([^:]+)(:):slug(.+).svg":
     handle.icon,
   "/:slug(.+).svg":
     handle.icon,
   "/(.*).svg":
-    handle['404'],
+    handle.error,
   "/*":
     handle.root,
   404:
-    handle['404']
+    handle.error,
 });    
