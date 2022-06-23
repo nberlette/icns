@@ -276,8 +276,6 @@ serve({
     handle.root,
   "/favicon.:ext(.+)":
     handle.favicon,
-  "/:color/:collection/:slug(.+).svg":
-    handle.icon,
   "/:color/:collection([^:]+)(:):slug(.+).svg":
     handle.icon,
   "/:color/:slug(.+).svg":
