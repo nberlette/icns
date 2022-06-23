@@ -160,8 +160,8 @@ const handle = {
           return (style + svg.trim().replace(/(^[\s\n]*<svg([^>]+)>|<\/svg>[\n\s]*$)/ig, (attrs) => {
             try {
               if (attrs) {
-                const [, viewBox = defaultIconProps.viewBox] = (/viewBox=['"]([^'"]+)['"]/i.exec(attrs) || []);
-                if (viewBox) Object.assign(props, { viewBox });
+                const matches = /viewBox=['"]([^'"]+)['"]/i.exec(attrs)
+                Object.assign(props, { viewBox: (matches[1] ?? defaultIconProps.viewBox) });
               }
             } catch { return '' }
             return ''
@@ -276,6 +276,8 @@ serve({
     handle.root,
   "/favicon.:ext(.+)":
     handle.favicon,
+  "/:color/:collection/:slug(.+).svg":
+    handle.icon,
   "/:color/:collection([^:]+)(:):slug(.+).svg":
     handle.icon,
   "/:color/:slug(.+).svg":
