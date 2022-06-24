@@ -25,19 +25,25 @@ const GOKV_NAMESPACE = Deno.env.get("GOKV_NAMESPACE") || "icns.ml";
  * List of icon slugs to display as examples on the homepage.
  */
 const exampleIconSlugs: string[] = [
-  "simple-icons:bmw:indianred",
-  "deno",
-  "c00/carbon:bat",
-  "rgba(0,160,240,.8)/ph:cloud-fill",
+  "indianred/bmw",
+  "dynamic/deno",
+  "ph:cloud-fill:lightblue",
   "tabler:brand-github",
   "0cf/twitter",
 ];
 
 /**
  * Default icon color to apply for fills and strokes.
+ * @default `inherit`
  * @note Providing any value for the color parameter will override this.
  */
-const defaultIconColor = "#000000";
+const defaultIconColor = "inherit";
+
+/**
+ * The default icon color to apply for dark mode when the color param is `dynamic`.
+ * @default `#ffffff`
+ */
+const defaultIconColorDark = "#ffffff";
 
 /**
  * Default attributes (or props) to use when rendering icons. Stringified into SVG.
@@ -82,16 +88,10 @@ const allowedIconProps: (string | RegExp)[] = [
  */
 const colorHashOptions = {};
 
-namespace globalThis {
-  interface Window {
-    setColorScheme(v?: "dark" | "light" | "auto"): any;
-  }
-}
-
 /**
  * Response handler functions depending on request.
  */
-const handle: any = {
+const handle = {
   /**
    * Where all the magic happens: the primary icon handler.
    */
@@ -100,7 +100,7 @@ const handle: any = {
     connInfo: ConnInfo,
     params: IconParams,
     extraProps: IconProps = {},
-  ): Promise<any> {
+  ): Promise<Response> {
     const url = new URL(req.url);
 
     // determine color
@@ -153,7 +153,7 @@ const handle: any = {
     let style: string = "";
     if (params.color === "dynamic") {
       style =
-        `<style>@media(prefers-color-scheme:dark){svg{color:#ffffff !important}}</style>`;
+        `<defs><style>@media(prefers-color-scheme:dark){svg,svg>*{color:${defaultIconColorDark ?? '#ffffff'} !important}}</style></defs>`;
     }
 
     // fetch the icon from the iconify cdn origin server
@@ -215,8 +215,8 @@ const handle: any = {
           </div>
           <button
             class="fixed z-100 top-10 right-10 btn-icon cursor-pointer dark:!text-white no-underline font-semibold text-sm inline-block overflow-hidden bg-transparent border-none"
-            // @ts-ignore bad types
-	    onClick="(e)=>{setColorScheme(localStorage.getItem('color-scheme')==='dark'?'light':'dark')}"
+            // @ts-ignore runs in the client as `window.setColorScheme`
+	    onclick="setColorScheme((localStorage.getItem('color-scheme')==='dark'?'light':'dark'))"
           >
             <span class="bg-blue-200 dark:!bg-yellow-200 dark:mix-blend-exclusion inline-block w-8 h-8 [-webkit-mask-image:url(./heroicons-outline:moon.svg)] [mask-image:url(./heroicons-outline:moon.svg)] dark:![-webkit-mask-image:url(./heroicons-outline:sun.svg)] dark:![mask-image:url(./heroicons-outline:sun.svg)]">
               &nbsp;
@@ -258,7 +258,7 @@ const handle: any = {
                 class="text-2xl font-bold mb-2 lowercase sr-only"
                 aria-hidden="true"
               >
-                Schema Examples
+                Examples
               </h2>
               {exampleIconSlugs // sort icons by length
                 .sort((a, b) => (+a.length - +b.length))
@@ -289,7 +289,7 @@ const handle: any = {
               <a
                 href="https://berlette.com"
                 class="select-none no-underline inline-block"
-                title="Made with ❤️ by Nicholas Berlette"
+                title="Nicholas Berlette Stands With Ukraine"
               >
                 <span class="opacity-70 group-hover:!opacity-100 transition-opacity duration-300 ease-in ![background:linear-gradient(#044bbb_50%,#fcc500_50.1%)] [-webkit-mask-image:url(./mdi:alpha-n-circle-outline.svg)] [mask-image:url(./mdi:alpha-n-circle-outline.svg)] inline-block w-12 h-12">
                 </span>
@@ -319,7 +319,7 @@ const handle: any = {
   /**
    * Choose a favicon! (and how to display it!)
    */
-  favicon(req: Request, connInfo?: ConnInfo): any {
+  favicon(req: Request, connInfo?: ConnInfo): Response {
     return handle.icon(req, connInfo, {
       collection: "ic",
       slug: "baseline-gradient",
@@ -330,7 +330,7 @@ const handle: any = {
   /**
    * In case we encounter a typo or otherwise missing icon, this will render a placeholder to prevent broken images.
    */
-  error(req: Request, connInfo?: ConnInfo): any {
+  error(req: Request, connInfo?: ConnInfo): Response {
     return handle.icon(req, connInfo, {
       collection: "heroicons-outline",
       slug: "exclamation",
