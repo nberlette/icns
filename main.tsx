@@ -172,6 +172,7 @@ const handle = {
    */
   root(req: Request, connInfo?: ConnInfo): Promise<any> {
     return html({
+      colorScheme: "auto",
       title: "icns.ml",
       body: <App />,
       links: [
@@ -187,7 +188,7 @@ const handle = {
         `var $=document.querySelector.bind(document);var $$=document.querySelectorAll.bind(document);var hashchange=(e)=>{location.hash.endsWith('.svg')&&($('#icon-preview').src='/'+location.hash.replace(/(^[#\/]|\\.svg$)/ig, '')+'.svg')};window.addEventListener('hashchange', hashchange);if(!!location.hash){setTimeout(hashchange,100)}`,
       ],
       styles: [
-        `@keyframes straighten-up{from{transform:rotateX(-1deg) rotateZ(2deg) scale3d(var(--un-scale-x,1.5),var(--un-scale-y,1.5),var(--un-scale-z,1.5));transition:.333s transform 6s ease-in;} to{transform:rotateX(0deg) rotateZ(0deg) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) !important;}} @keyframes desharpen{from{backdrop-filter:blur(2px)}to{backdrop-filter:blur(0)}} .straighten-up{animation:500ms straighten-up linear var(--straighten-up-delay,4500ms) 1 both, 1000ms fade-in linear 500ms 1 both, 500ms desharpen 4500ms 1 both;} pre,code,kbd{font-family:'IBM Plex Mono','Dank Mono','Operator Mono SSm','Operator Mono','Fira Code','Fira Mono',monospace !important}`,
+        `@keyframes straighten-up{from{transform:rotateX(-3deg) rotateY(3deg) rotateZ(3deg) scale3d(var(--un-scale-x,1.5),var(--un-scale-y,1.5),var(--un-scale-z,1.5));transition:.333s transform 6s ease-in;} to{transform:rotateX(0deg) rotateY(0deg) rotateZ(0deg) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z)) !important;}} @keyframes desharpen{from{backdrop-filter:blur(2px)}to{backdrop-filter:blur(0)}} .straighten-up{animation:500ms straighten-up linear 6000ms 1 both, 1000ms fade-in linear 500ms 1 both, 500ms desharpen 4500ms 1 both;} pre,code,kbd{font-family:'IBM Plex Mono','Dank Mono','Operator Mono SSm','Operator Mono','Fira Code','Fira Mono',monospace !important}`,
       ],
     });
   },
