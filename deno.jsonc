@@ -1,0 +1,53 @@
+{
+  "importMap": "import_map.json",
+  "compilerOptions": {
+    "lib": [
+      "deno.ns",
+      "deno.window",
+      "dom",
+      "dom.iterable",
+      "dom.asynciterable",
+      "esnext"
+    ],
+    "types": [
+      "./types.d.ts"
+    ],
+    "strict": false,
+    "allowJs": true,
+    "strictNullChecks": false,
+    "keyofStringsOnly": true,
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
+    "jsxImportSource": "https://esm.sh/preact@10.10.1"
+  },
+  "fmt": {
+    "files": {
+      "exclude": [
+        "static",
+        "public",
+        ".git*",
+        ".vscode"
+      ]
+    }
+  },
+  "lint": {
+    "files": {
+      "exclude": [
+        "static",
+        "public",
+        "test",
+        ".git*",
+        ".vscode"
+      ]
+    },
+    "rules": {
+      "exclude": [
+        "no-explicit-any"
+      ]
+    }
+  },
+  "tasks": {
+    "dev": "deno run -A --unstable --watch=. main.tsx",
+    "test": "deno test -A --unstable --no-check=remote"
+  }
+}

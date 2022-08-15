@@ -1,24 +1,9 @@
-/**
- * URL Request Parameters for serving up hot icons.
- */
-export declare interface IconParams {
-  color?: string;
-  colorhash?: string;
-  collection?: string;
-  slug: string;
-}
+declare type IconAttributes = import("./main.tsx").IconAttributes;
+declare type IconProps = import("./main.tsx").IconProps;
+declare type IconParams = import("./main.tsx").IconParams;
 
-/**
- * Some common SVG attributes we can expect to encounter.
- */
-export declare interface IconAttributes {
-  xmlns: string;
-  viewBox: `${number} ${number} ${number} ${number}`;
-  width: string | number;
-  height: string | number;
-  fill: string;
-  stroke: string;
-  [prop: string]: string | number | boolean;
-}
+declare type ConnInfo = import("./deps.ts").ConnInfo;
+declare type Routes = import("./deps.ts").Routes;
+declare type VNode = import("./deps.ts").VNode;
 
-export declare type IconProps = Partial<IconAttributes>;
+declare type PathParams = Record<string, string>;
